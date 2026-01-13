@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 from pydantic import BaseModel
 import numpy as np
 from typing import List
+import os
 
 app = FastAPI(title="PFR Reactor Simulator")
 
@@ -160,6 +163,12 @@ async def simulate(input_data: SimulationInput) -> SimulationOutput:
 @app.get("/")
 async def root():
     return {"message": "PFR Reactor Simulator API", "version": "1.0"}
+
+
+# Mount static files (React frontend)
+frontend_dist = Path(__file__).parent.parent / "frontend" / "dist"
+if frontend_dist.exists():
+    app.mount("/", StaticFiles(directory=str(frontend_dist), html=True), name="frontend")
 
 
 if __name__ == "__main__":
