@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
@@ -134,9 +134,9 @@ async def simulate(input_data: SimulationInput) -> SimulationOutput:
     """
     # Validare input
     if input_data.Flow_Velocity <= 0:
-        raise ValueError("Viteza fluidului trebuie să fie pozitivă")
+        raise HTTPException(status_code=400, detail="Viteza fluidului trebuie să fie pozitivă")
     if input_data.T_in <= 0:
-        raise ValueError("Temperatura de intrare trebuie să fie pozitivă")
+        raise HTTPException(status_code=400, detail="Temperatura de intrare trebuie să fie pozitivă")
     
     # Rezolvă sistemul ODE
     z_axis, T_profile, C_A_profile = solve_pfr_model(

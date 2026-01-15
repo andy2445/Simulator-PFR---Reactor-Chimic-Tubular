@@ -12,6 +12,7 @@ function App() {
   })
 
   const [simulationData, setSimulationData] = useState(null)
+  const [previousData, setPreviousData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
@@ -19,16 +20,22 @@ function App() {
     setLoading(true)
     setError(null)
 
+    // Save current data as previous before new run
+    if (simulationData) {
+      setPreviousData(simulationData)
+    }
+
     try {
       const response = await axios.post('/simulate', simulationParams)
       setSimulationData(response.data)
     } catch (err) {
-      setError(`Eroare la simulare: ${err.message}`)
+      const errorMessage = err.response?.data?.detail || err.message
+      setError(`Eroare: ${errorMessage}`)
       console.error('Simulation error:', err)
     } finally {
       setLoading(false)
     }
-  }, [simulationParams])
+  }, [simulationParams, simulationData])
 
   const handleParamChange = (param, value) => {
     setSimulationParams(prev => ({
@@ -53,8 +60,10 @@ function App() {
       />
       <Dashboard
         data={simulationData}
+        previousData={previousData}
         loading={loading}
         error={error}
+        simulationParams={simulationParams}
       />
     </div>
   )

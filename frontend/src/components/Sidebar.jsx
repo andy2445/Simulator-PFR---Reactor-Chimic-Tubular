@@ -52,8 +52,8 @@ export default function Sidebar({ params, onParamChange, onSimulate, loading }) 
 
   const PRESETS = [
     { name: 'Standard', T_in: 300, Flow_Velocity: 2.0, T_jacket: 280, icon: '🏭' },
-    { name: 'Max Conv', T_in: 340, Flow_Velocity: 1.0, T_jacket: 290, icon: '🔥' },
-    { name: 'Safe Mode', T_in: 280, Flow_Velocity: 3.5, T_jacket: 260, icon: '🛡️' },
+    { name: 'Conv. Max', T_in: 340, Flow_Velocity: 1.0, T_jacket: 290, icon: '🔥' },
+    { name: 'Mod Sigur', T_in: 280, Flow_Velocity: 3.5, T_jacket: 260, icon: '🛡️' },
   ]
 
   return (
@@ -62,10 +62,10 @@ export default function Sidebar({ params, onParamChange, onSimulate, loading }) 
       <div className="mb-6 md:mb-8 text-center relative">
         <div className="absolute inset-0 blur-xl bg-blue-500/20 -z-10 rounded-full"></div>
         <h1 className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-2">
-          PFR SIM
+          SIMULATOR PFR
         </h1>
         <p className="text-slate-400 text-xs uppercase tracking-widest hidden md:block">
-          Reactor Tubular Control
+          CONTROL REACTOR TUBULAR
         </p>
       </div>
 
@@ -86,7 +86,7 @@ export default function Sidebar({ params, onParamChange, onSimulate, loading }) 
       {/* Controls Container */}
       <div className="space-y-1 mb-6">
         <SliderControl
-          label="TEMPERATURA INTRARE"
+          label="TEMPERATURĂ INTRARE"
           value={params.T_in}
           min={273}
           max={350}
@@ -97,14 +97,14 @@ export default function Sidebar({ params, onParamChange, onSimulate, loading }) 
         />
 
         <SliderControl
-          label="VITEZA FLUID"
+          label="VITEZĂ FLUID"
           value={params.Flow_Velocity}
           min={0.5}
           max={5}
           step={0.1}
           paramName="Flow_Velocity"
           unit="m/s"
-          helpText={`Timp de rezidenţă: ${(5.0 / params.Flow_Velocity).toFixed(1)} s`}
+          helpText={`Timp de rezidență: ${(5.0 / params.Flow_Velocity).toFixed(1)} s`}
         />
 
         <SliderControl
@@ -132,12 +132,12 @@ export default function Sidebar({ params, onParamChange, onSimulate, loading }) 
           {loading ? (
             <span className="flex items-center justify-center gap-2">
               <span className="animate-spin text-xl">⚡</span>
-              <span>CALCULATING...</span>
+              <span>SE CALCULEAZĂ...</span>
             </span>
           ) : (
             <div className="flex items-center justify-center gap-2">
               <span>🚀</span>
-              <span>START SIMULATION</span>
+              <span>START SIMULARE</span>
             </div>
           )}
         </button>
@@ -146,11 +146,10 @@ export default function Sidebar({ params, onParamChange, onSimulate, loading }) 
       {/* Footer Info */}
       <div className="mt-4 text-center">
         <span className="text-[10px] text-slate-600 font-mono">
-          v2.0 • PFR SYSTEM READY
+          v2.0 • SISTEM PFR ONLINE
         </span>
       </div>
     </div>
   )
 }
-
 
