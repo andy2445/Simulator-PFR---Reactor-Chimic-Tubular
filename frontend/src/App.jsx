@@ -20,7 +20,7 @@ function App() {
     setError(null)
 
     try {
-      const response = await axios.post('http://localhost:8000/simulate', simulationParams)
+      const response = await axios.post('/simulate', simulationParams)
       setSimulationData(response.data)
     } catch (err) {
       setError(`Eroare la simulare: ${err.message}`)
