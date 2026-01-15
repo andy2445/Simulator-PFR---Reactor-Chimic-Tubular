@@ -160,9 +160,9 @@ async def simulate(input_data: SimulationInput) -> SimulationOutput:
     )
 
 
-@app.get("/")
-async def root():
-    return {"message": "PFR Reactor Simulator API", "version": "1.0"}
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy", "version": "1.0"}
 
 
 # Mount static files (React frontend)
