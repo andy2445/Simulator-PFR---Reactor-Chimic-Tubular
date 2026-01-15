@@ -18,7 +18,7 @@ function App() {
   const runSimulation = useCallback(async () => {
     setLoading(true)
     setError(null)
-    
+
     try {
       const response = await axios.post('http://localhost:8000/simulate', simulationParams)
       setSimulationData(response.data)
@@ -38,14 +38,20 @@ function App() {
   }
 
   return (
-    <div className="flex h-screen bg-industrial-900">
-      <Sidebar 
+    <div className="flex h-screen text-slate-100 overflow-hidden relative">
+      {/* Background Gradient Mesh */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/10 rounded-full blur-[100px]" />
+      </div>
+
+      <Sidebar
         params={simulationParams}
         onParamChange={handleParamChange}
         onSimulate={runSimulation}
         loading={loading}
       />
-      <Dashboard 
+      <Dashboard
         data={simulationData}
         loading={loading}
         error={error}
