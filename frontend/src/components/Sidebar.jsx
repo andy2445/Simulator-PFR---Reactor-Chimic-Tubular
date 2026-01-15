@@ -57,7 +57,7 @@ export default function Sidebar({ params, onParamChange, onSimulate, loading }) 
   ]
 
   return (
-    <div className="w-full md:w-80 h-auto md:h-full glass border-r-0 md:border-r border-b md:border-b-0 z-10 flex flex-col p-6 shadow-2xl backdrop-blur-xl shrink-0 overflow-y-auto global-scrollbar">
+    <div className="w-full md:w-80 h-auto md:h-full glass border-r-0 md:border-r border-b md:border-b-0 z-10 flex flex-col p-4 md:p-6 shadow-2xl backdrop-blur-xl shrink-0 md:overflow-y-auto global-scrollbar">
       {/* Header */}
       <div className="mb-6 md:mb-8 text-center relative">
         <div className="absolute inset-0 blur-xl bg-blue-500/20 -z-10 rounded-full"></div>

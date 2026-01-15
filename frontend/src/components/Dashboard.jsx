@@ -108,7 +108,7 @@ export default function Dashboard({ data, previousData, loading, error, simulati
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 md:p-8 relative scroll-smooth custom-scrollbar">
+    <div className="flex-1 md:overflow-y-auto p-4 md:p-8 relative scroll-smooth custom-scrollbar">
       {loading && (
         <div className="absolute inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/20 rounded-lg">
           {/* Loader overlaid is handled by button state, but this adds extra visual cue */}
