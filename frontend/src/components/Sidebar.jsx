@@ -44,21 +44,47 @@ export default function Sidebar({ params, onParamChange, onSimulate, loading }) 
     </div>
   )
 
+  const applyPreset = (preset) => {
+    onParamChange('T_in', preset.T_in)
+    onParamChange('Flow_Velocity', preset.Flow_Velocity)
+    onParamChange('T_jacket', preset.T_jacket)
+  }
+
+  const PRESETS = [
+    { name: 'Standard', T_in: 300, Flow_Velocity: 2.0, T_jacket: 280, icon: '🏭' },
+    { name: 'Max Conv', T_in: 340, Flow_Velocity: 1.0, T_jacket: 290, icon: '🔥' },
+    { name: 'Safe Mode', T_in: 280, Flow_Velocity: 3.5, T_jacket: 260, icon: '🛡️' },
+  ]
+
   return (
-    <div className="w-80 h-full glass border-r-0 z-10 flex flex-col p-6 shadow-2xl backdrop-blur-xl">
+    <div className="w-full md:w-80 h-auto md:h-full glass border-r-0 md:border-r border-b md:border-b-0 z-10 flex flex-col p-6 shadow-2xl backdrop-blur-xl shrink-0 overflow-y-auto global-scrollbar">
       {/* Header */}
-      <div className="mb-8 text-center relative">
+      <div className="mb-6 md:mb-8 text-center relative">
         <div className="absolute inset-0 blur-xl bg-blue-500/20 -z-10 rounded-full"></div>
-        <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-2">
+        <h1 className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-2">
           PFR SIM
         </h1>
-        <p className="text-slate-400 text-xs uppercase tracking-widest">
+        <p className="text-slate-400 text-xs uppercase tracking-widest hidden md:block">
           Reactor Tubular Control
         </p>
       </div>
 
+      {/* Presets */}
+      <div className="mb-6 grid grid-cols-3 gap-2">
+        {PRESETS.map((preset) => (
+          <button
+            key={preset.name}
+            onClick={() => applyPreset(preset)}
+            className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-800/50 hover:bg-blue-500/20 border border-slate-700 hover:border-blue-500/50 transition-all group"
+          >
+            <span className="text-lg mb-1 group-hover:scale-110 transition-transform">{preset.icon}</span>
+            <span className="text-[10px] text-slate-300 font-mono">{preset.name}</span>
+          </button>
+        ))}
+      </div>
+
       {/* Controls Container */}
-      <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+      <div className="space-y-1 mb-6">
         <SliderControl
           label="TEMPERATURA INTRARE"
           value={params.T_in}
@@ -94,7 +120,7 @@ export default function Sidebar({ params, onParamChange, onSimulate, loading }) 
       </div>
 
       {/* Action Button */}
-      <div className="mt-6 pt-6 border-t border-slate-700/50">
+      <div className="mt-auto pt-6 border-t border-slate-700/50">
         <button
           onClick={onSimulate}
           disabled={loading}

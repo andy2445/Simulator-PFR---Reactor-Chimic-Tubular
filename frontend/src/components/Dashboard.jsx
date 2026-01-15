@@ -64,8 +64,28 @@ export default function Dashboard({ data, loading, error }) {
     concentratie: Math.round(data.concentration_profile[index] * 1000) / 1000,
   }))
 
+  const exportCSV = () => {
+    if (!data) return
+
+    // Header
+    let csv = 'z [m],Temperature [K],Concentration [mol/m3]\n'
+
+    // Rows
+    data.z_axis.forEach((z, i) => {
+      csv += `${z.toFixed(4)},${data.temperature_profile[i].toFixed(4)},${data.concentration_profile[i].toFixed(4)}\n`
+    })
+
+    // Download trigger
+    const blob = new Blob([csv], { type: 'text/csv' })
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `pfr_simulation_${new Date().toISOString().slice(0, 10)}.csv`
+    a.click()
+  }
+
   return (
-    <div className="flex-1 overflow-y-auto p-8 relative scroll-smooth custom-scrollbar">
+    <div className="flex-1 overflow-y-auto p-4 md:p-8 relative scroll-smooth custom-scrollbar">
       {loading && (
         <div className="absolute inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/20 rounded-lg">
           {/* Loader overlaid is handled by button state, but this adds extra visual cue */}
@@ -73,9 +93,9 @@ export default function Dashboard({ data, loading, error }) {
       )}
 
       {/* Header */}
-      <div className="mb-8 flex justify-between items-end">
+      <div className="mb-6 md:mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h1 className="text-4xl font-bold text-white mb-1 tracking-tight">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-1 tracking-tight">
             Simulation Results
           </h1>
           <div className="flex gap-2">
@@ -87,10 +107,17 @@ export default function Dashboard({ data, loading, error }) {
             </span>
           </div>
         </div>
+
+        <button
+          onClick={exportCSV}
+          className="glass px-4 py-2 hover:bg-white/10 text-xs font-bold text-emerald-400 flex items-center gap-2 transition-all active:scale-95"
+        >
+          <span>📥</span> DOWNLOAD CSV
+        </button>
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
         <div className="glass-panel p-6 relative overflow-hidden group">
           <div className="absolute -right-4 -top-4 bg-blue-500/20 w-24 h-24 rounded-full blur-xl group-hover:bg-blue-500/30 transition-all"></div>
           <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Final Conversion</p>

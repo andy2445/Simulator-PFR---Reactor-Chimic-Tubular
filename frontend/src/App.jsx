@@ -38,7 +38,7 @@ function App() {
   }
 
   return (
-    <div className="flex h-screen text-slate-100 overflow-hidden relative">
+    <div className="flex flex-col md:flex-row h-screen text-slate-100 overflow-hidden relative">
       {/* Background Gradient Mesh */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[100px]" />
