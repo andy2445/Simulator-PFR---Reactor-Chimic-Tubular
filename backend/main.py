@@ -111,10 +111,14 @@ def solve_pfr_model(T_in: float, u: float, T_jacket: float) -> tuple:
         
         # Bilanț de energie: dT/dz = (Căldura generată - Căldura schimbată) / (ρ*c_p*u)
         # Pentru o reacție exotermă (ΔH < 0), reacția degajă căldură și crește temperatura
-        # Căldura degajată: -ΔH * k * C_A * C_molar  (negativ pentru pozitiv în ecuație)
-        # Căldura luată de jacheta: U * A_surface * (T - T_jacket)
-        heat_generated = -params.Delta_H * k * C_A * params.C_molar  # Signum invers
-        heat_exchanged = params.U * params.A_surface * (T - T_jacket)
+        # Căldura degajată: -ΔH * k * C_A * C_molar
+        # Căldura schimbată cu mantaua: 4 * U / D * (T - T_jacket)  <- Formula Corectă din Doc
+        heat_generated = -params.Delta_H * k * C_A * params.C_molar
+        
+        # Termenul de transfer termic arier volumetric: 4 * U / D
+        geometric_factor = 4.0 / params.D_tube
+        heat_exchanged = geometric_factor * params.U * (T - T_jacket)
+        
         dT_dz = (heat_generated - heat_exchanged) / (params.rho * params.c_p * u)
         
         # Update cu metoda Euler
